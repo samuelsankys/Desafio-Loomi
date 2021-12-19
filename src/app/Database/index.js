@@ -5,6 +5,7 @@ const dbConfig = require('../Config/database');
 const User = require('../Models/User');
 const Client = require('../Models/Client');
 const Address = require('../Models/Address');
+const Product = require('../Models/Product');
 
 const connection = new Sequelize(dbConfig);
 
@@ -13,6 +14,7 @@ const connection = new Sequelize(dbConfig);
 User.init(connection);
 Client.init(connection);
 Address.init(connection);
+Product.init(connection);
 
 //Relations
 User.associate(connection.models);
