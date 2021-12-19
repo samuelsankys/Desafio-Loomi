@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
-const routes = require('./app/Routes/user.routes');
+const UserRoutes = require('./app/Routes/user.routes');
+const ProductRoutes = require('./app/Routes/product.routes');
 
 // Imports
 require('./app/Database');
@@ -23,7 +24,8 @@ app.use(morgan('dev'));
 // Variaveis Globais
 
 // Rotas
-app.use(routes);
+app.use(UserRoutes);
+app.use(ProductRoutes);
 
 // Public
 
