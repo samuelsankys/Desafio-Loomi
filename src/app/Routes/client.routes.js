@@ -14,7 +14,13 @@ const routes = express.Router();
 routes.use(authMiddleware);
 
 routes.get('/clients', ClientController.index);
-routes.post('/users/:user_id/client', ClientController.store);
+routes.get('/client/:client_id/details', ClientController.userDetail);
+
+routes.post('/client/:user_id', ClientController.store);
+routes.put('/client/:client_id', ClientController.update);
+routes.delete('/client/:client_id', ClientController.delete);
+
+
 
 routes.get('/users/:user_id/client/address', AddressController.index);
 routes.post('/users/:user_id/client/address', AddressController.store);

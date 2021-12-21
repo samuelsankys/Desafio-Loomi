@@ -13,8 +13,8 @@ const routes = express.Router();
 routes.post('/register', UserController.store);
 
 // Authentitation 
-routes.use(authMiddleware);
 routes.post('/login', UserController.authenticate);
+routes.use(authMiddleware);
 
 routes.post('/logout', UserController.logout);
 
