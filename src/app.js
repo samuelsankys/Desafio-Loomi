@@ -1,6 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
+
+
+
 const UserRoutes = require('./app/Routes/user.routes');
+const ClientRoutes = require('./app/Routes/client.routes');
 const ProductRoutes = require('./app/Routes/product.routes');
 
 // Imports
@@ -25,6 +29,7 @@ app.use(morgan('dev'));
 
 // Rotas
 app.use(UserRoutes);
+app.use(ClientRoutes);
 app.use(ProductRoutes);
 
 // Public

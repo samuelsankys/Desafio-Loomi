@@ -3,8 +3,10 @@ const Client = require('../Models/Client');
 
 module.exports = {
     async index(req, res){
-        const { user_id } = req.params;
-        const { nome, email, telefone } = req.body;
+
+        const  user_id  = await req.userId;
+        console.log(req.userId);
+        console.log(user_id);
         try {
             const user = await User.findByPk(user_id, {
                 include: { association: 'client'}
@@ -21,7 +23,7 @@ module.exports = {
 
 
     async store(req, res){
-        const { user_id } = req.params;
+        const { user_id } = req.userId;
         const { nome, email, telefone } = req.body;
 
         const user = await User.findByPk(user_id);
