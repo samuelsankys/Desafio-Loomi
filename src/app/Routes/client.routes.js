@@ -20,10 +20,10 @@ routes.post('/client/:user_id', ClientController.store);
 routes.put('/client/:client_id', ClientController.update);
 routes.delete('/client/:client_id', ClientController.delete);
 
-
-
-routes.get('/users/:user_id/client/address', AddressController.index);
-routes.post('/users/:user_id/client/address', AddressController.store);
+//routes.get('/client/address/:client_id', AddressController.index);
+routes.post('/client/address/:client_id', AddressController.store);
+routes.put('/client/address/:client_id', AddressController.update);
+routes.delete('/client/address/:client_id', AddressController.delete);
 
 
 routes.post('/users/:user_id/client/order', OrderController.store);
