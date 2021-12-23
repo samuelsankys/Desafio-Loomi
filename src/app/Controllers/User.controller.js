@@ -77,7 +77,7 @@ module.exports = {
             })
 
             if(deleted == 1){
-                res.status(200).json({ message: "User deleted successfully" });
+                return res.status(200).json({ message: "User deleted successfully" });
             }
 
             return res.status(400).json({error: 'User not deleted'});
@@ -118,7 +118,7 @@ module.exports = {
     }, 
 
     async logout(req, res){
-        res.status(200).json({ token: null });
+        return res.status(200).json({ token: null });
     }
 }
 

@@ -1,10 +1,51 @@
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
+
 const Product = require('../Models/Product');
 
 
 module.exports = {
     async index(req, res){
+        // Example URI
+        // products/?search=2&priceFrom=1&priceTo=10
         try {
-            const products = await Product.findAll();
+            const  {search, priceFrom, priceTo}  = req.query;
+            const filter =  {where: {} }
+    
+    
+            const operatorsAliases = {
+                like: Op.like,
+                or: Op.or,
+                bet: Op.between
+            }
+    
+            if(search){
+    
+                filter.where[operatorsAliases.or] = [{
+                        nome: {
+                            [Op.like]: `%${search}%`,
+                        },
+                    },{
+                        caracteristicas: {
+                            [Op.like]: `%${search}%`,
+                        }
+                    },{
+                        codigo: {
+                            [Op.like]: `%${search}%`,
+                        }
+                    }
+                ]
+
+            }
+            if (priceFrom && priceTo)
+                filter.where.preco = {[operatorsAliases.bet]: [priceFrom, priceTo]
+            }
+    
+
+            const products = await Product.findAll({ 
+                where: filter.where
+            });
 
             if(!products){
                 return res.status(400).json({error: 'Product not found'});
@@ -12,6 +53,24 @@ module.exports = {
 
             return res.status(200).json({ products });
         } catch (error) {
+            console.log(error);
+            return res.status(400).json({error: 'Search products failed'});
+        }
+        
+    },
+
+    async productDetail(req, res){
+        const { product_id } = await req.params;
+        try {
+            const product = await Product.findByPk(product_id);
+
+            if(!product){
+                return res.status(400).json({error: 'Product not found'});
+            }
+
+            return res.status(200).json({ product });
+        } catch (error) {
+            console.log(error);
             return res.status(400).json({error: 'Search products failed'});
         }
         
@@ -83,6 +142,30 @@ module.exports = {
         } catch (error) {
             return res.status(400).json({error: 'Update product failed'});
         }
+
+    },
+
+    async delete(req, res){
+        const { product_id } = req.params
+
+       try {
+
+            const product = await Product.findByPk(product_id);
+
+            if( !product ){
+                return res.status(400).json({error: 'Product not found'});
+            }
+            const productDel = await Product.destroy({where: {id: product_id}})
+
+            if(!productDel){
+                return res.status(400).json({error: 'Deleted Product failed'});
+            }
+
+            return res.status(200).json({message: 'Product deleted successfully'});
+
+       } catch (error) {
+            return res.status(400).json({error: 'Deleted product failed'});
+       }
 
     }
 

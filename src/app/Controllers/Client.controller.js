@@ -6,9 +6,9 @@ const Client = require('../Models/Client');
 
 module.exports = {
     async index(req, res){
-        const  search  = 'sam'//req.query;
-        const filter = { where: {} }
-        console.log(search);
+        const  {search}  = req.query;
+        const filter =  {where: {} }
+
 
         const operatorsAliases = {
             like: Op.like,
@@ -32,17 +32,8 @@ module.exports = {
 
         try {
             const user = await Client.findAll({
-                where: {
-                    // or: [{
-                    //     nome: {
-                    //         [Op.like]: `%sam%`,
-                    //     },
-                    // },{
-                    //     email: {
-                    //         [Op.like]: `%sam%`,
-                    //     }
-                    // }],
-                },
+                where: filter.where
+                ,
                 include: {
                     association: 'address'
                 },
@@ -54,9 +45,9 @@ module.exports = {
             }
 
             if(user === []){
-                return es.status(400).json({error: 'User not found'});
+                return res.status(400).json({error: 'User not found'});
             }
-            console.log(typeof(user));
+           
             return res.json(user);
         } catch (error) {
             console.log(error);

@@ -8,6 +8,7 @@ module.exports = {
       });
       await queryInterface.changeColumn("orders_products", "preco_produto", {
         type: Sequelize.DECIMAL(10,2),
+        
       });
       return Promise.resolve();
     } catch (e) {

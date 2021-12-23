@@ -17,6 +17,16 @@ module.exports = {
             if( !client ){
                 return res.status(400).json({error: 'Client not found'});
             }
+
+            const addressSearch = await Address.findOne({
+              where: {
+                  client_id
+              }
+            });
+            
+            if( addressSearch ){
+                return res.status(400).json({error: 'Client already has address'});
+            }
         
             const address = await Address.create({ 
                 client_id: client.id,
@@ -33,7 +43,6 @@ module.exports = {
 
             return res.status(200).json({message: 'Address created successfully'});
         } catch (error) {
-            console.log(error);
             return res.status(400).json({error: 'Address not created'});
         }  
     },
@@ -108,7 +117,6 @@ module.exports = {
             return res.status(200).json({message: 'Address deleted successfully'});
 
        } catch (error) {
-           console.log(error);
             return res.status(400).json({error: 'Deleted address failed'});
        }
 
