@@ -15,7 +15,7 @@ module.exports = {
             });
 
             if(!users){
-                return res.status(204).json({ message: 'Users not found' });
+                return res.status(400).json({ message: 'Users not found' });
             }
             
             return res.status(200).json({ users });
@@ -77,7 +77,7 @@ module.exports = {
             })
 
             if(deleted == 1){
-                res.status(200).json({ message: "User" + user.email +"deleted successfully" });
+                return res.status(200).json({ message: "User deleted successfully" });
             }
 
             return res.status(400).json({error: 'User not deleted'});
@@ -97,7 +97,7 @@ module.exports = {
             const user = await User.findOne({ where: { email } })
 
             if( !user ){
-                return res.status(204).json({error: 'User not found'});
+                return res.status(400).json({error: 'User not found'});
             }
 
             const senhaOk = await bcrypt.compare(senha , user.senha);
@@ -118,7 +118,7 @@ module.exports = {
     }, 
 
     async logout(req, res){
-        res.status(200).json({ token: null });
+        return res.status(200).json({ token: null });
     }
 }
 
